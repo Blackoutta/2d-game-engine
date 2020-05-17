@@ -2,6 +2,10 @@
 #include "Constants.h"
 #include "Game.h"
 #include "../lib/glm/glm.hpp"
+#include "EntityManager.h"
+
+EntityManager manager;
+SDL_Renderer* Game::renderer;
 
 // Game结构体的Constrctor
 Game::Game() {
@@ -17,11 +21,6 @@ Game::~Game() {
 bool Game::IsRunning() const {
     return this->isRunning;
 }
-
-// 飞行道具的位置和加速度
-glm::vec2 projectilePos = glm::vec2(0.0f, 0.0f);
-glm::vec2 projectileVel = glm::vec2(20.0f, 20.0f);
-
 
 void Game::Initialize(int width, int height) {
     // 初始化SDL
@@ -93,10 +92,10 @@ void Game::Update() {
 
     // 将当前tick设置为下一次更新时的ticksLastFrame
     ticksLastFrame = SDL_GetTicks();
-    projectilePos = glm::vec2(
-        projectilePos.x + projectileVel.x * deltaTime,
-        projectilePos.y + projectileVel.y * deltaTime
-    );
+
+    // TODO:
+    // call manager.update() to update all entities
+
 }
 
 // 渲染游戏画面
@@ -106,18 +105,8 @@ void Game::Render() {
     // 清理back buffer
     SDL_RenderClear(renderer);
 
-    // 生成一个方块图形
-    SDL_Rect projectile {
-        (int) projectilePos.x,
-        (int) projectilePos.y,
-        10,
-        10
-    };
-    
-    // 设置方块图形颜色
-    SDL_SetRenderDrawColor(renderer, 255, 21, 21, 255);
-    // 填充方块颜色
-    SDL_RenderFillRect(renderer, &projectile);
+    // TODO:
+    // call manager.render() to render entities
 
     // 渲染画面
     SDL_RenderPresent(renderer);
